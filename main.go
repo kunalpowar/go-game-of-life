@@ -28,7 +28,9 @@ func main() {
 	r.PathPrefix("/ws").HandlerFunc(serveWs)
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("web/dist")))
 
-	if err := http.ListenAndServe("0.0.0.0:8090", r); err != nil {
+	addr := "0.0.0.0:8090"
+	log.Printf("Starting web server at %s", addr)
+	if err := http.ListenAndServe(addr, r); err != nil {
 		panic(err)
 	}
 }
