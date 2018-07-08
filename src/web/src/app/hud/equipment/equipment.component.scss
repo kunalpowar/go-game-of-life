@@ -1,0 +1,58 @@
+@import "~assets/styles/variables.scss";
+:host {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: rgba($color: #000000, $alpha: 0.7);
+  display: flex;
+  .filler {
+    flex: 1;
+  }
+  .side,
+  .ammo {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    flex: 1;
+  }
+  .side {
+    &.ct {
+      background-image: url('./ct.png');
+    }
+    &.t {
+      background-image: url('./t.png')
+    }
+  }
+  .team-money,
+  .team-equip {
+    flex: 3;
+    color: white;
+    font-weight: 900;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0% 2%;
+    display: flex;
+    .label {
+      font-size: 0.6em;
+      color: $t;
+      font-weight: 400;
+    }
+    .money {
+      font-size: 1.1em;
+    }
+  }
+  .ammo {
+    background-size: 150%;
+    &.ct {
+      background-image: url('./ammo_ct.png');
+    }
+    &.t {
+      background-image: url('./ammo_t.png');
+    }
+  }
+  &.right-align {
+    right: 0px;
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+}

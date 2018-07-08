@@ -1,0 +1,20 @@
+<div class="phase-timer" *ngIf="phaseName === 'live' || phaseName === 'freezetime'">
+  <div class="round-timer" [ngClass]="{'running-out': runningOut}">
+    <span *ngIf="endsIn !==''">{{endsIn}}</span>
+  </div>
+  <div class="round-info">
+    <span *ngIf="mapState">Round {{mapState.round+1}}/30</span>
+  </div>
+</div>
+<div class="phase-timer c4" *ngIf="phaseName === 'bomb' || phaseName === 'defuse'" [ngClass]="{'defused': defused}">
+  <div class="timer" *ngIf="!defused" [@c4Planted]></div>
+</div>
+<div class="defuse-timer" [ngClass]="{'show': phaseName === 'defuse'}">
+  <div class="header">
+    <div class="label">Defusing</div>
+    <div class="defuser" [ngClass]="{'has': defuseTime > 0 && defuseTime < 7}"></div>
+  </div>
+  <div class="timer">
+    <div class="done" [@defusing]="defuseState"></div>
+  </div>
+</div>

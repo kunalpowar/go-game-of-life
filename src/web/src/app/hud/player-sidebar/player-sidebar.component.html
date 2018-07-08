@@ -1,0 +1,43 @@
+<div class="with-player" *ngIf="player">
+  <div class="health-bar" *ngIf="player.state && player.state.health > 0" [style.width.%]="player.state.health" [ngClass]="{'t': player.team === 'T', 'ct': player.team === 'CT'}"></div>
+  <div class="damage-bar" *ngIf="player.state && player.state.health > 0" [style.width.%]="delayedHealth" [ngClass]="{'damaged': damaged}"></div>
+  <div class="top-half-color" *ngIf="player.state && player.state.health > 0"></div>
+  <div class="bottom-half-color" *ngIf="player.state && player.state.health > 0"></div>
+  <div class="health-armor">
+    <div class="dead" *ngIf="player.state && player.state.health === 0"></div>
+    <div class="health" *ngIf="player.state && player.state.health > 0">
+      <span *ngIf="player.state">{{ player.state.health }}</span>
+      <span *ngIf="!player.state">--</span>
+    </div>
+    <div class="armor-c4" *ngIf="player.state && player.state.health > 0">
+      <div class="armor" [ngClass]="{'armor-with-helmet': hasArmor && armorWithHelmet, 'armor-without-helmet': hasArmor && !armorWithHelmet}">
+      </div>
+      <div class="c4-defuse" [ngClass]="{'has-c4': hasC4, 'has-defuse-kit': hasDefuseKit}"></div>
+    </div>
+  </div>
+  <div class="name-weapons">
+    <div class="top-half">
+      <div class="name">
+        <span>{{player.name}}</span>
+      </div>
+      <div class="filler"></div>
+      <div class="primary-weapon">
+        <app-weapon *ngIf="primaryWeapon" [weapon]="primaryWeapon" [flip]="rightAlign"></app-weapon>
+      </div>
+    </div>
+    <div class="bottom-half">
+      <div class="cash">
+        <span *ngIf="player.state">${{ player.state.money }}</span>
+      </div>
+      <div class="filler"></div>
+      <div class="nades" [style.width.%]="nades.length*6.25">
+        <app-weapon *ngFor="let n of nades" [weapon]="n"></app-weapon>
+      </div>
+      <div class="filler"></div>
+      <div class="secondary-weapon">
+        <app-weapon *ngIf="secondaryWeapon" [weapon]="secondaryWeapon" [flip]="rightAlign"></app-weapon>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="without-player" *ngIf="!player"></div>

@@ -1,4 +1,4 @@
-package main
+package goluniverse
 
 // Rules:
 // Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
@@ -6,25 +6,25 @@ package main
 // Any live cell with more than three live neighbours dies, as if by overpopulation.
 // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
-type coord struct {
+type Coord struct {
 	x, y int
 }
 
-func (c *coord) valid(size int) bool {
+func (c *Coord) valid(size int) bool {
 	return c.x > -1 && c.y > -1 && c.x < size && c.y < size
 }
 
-type universe struct {
-	prev    map[coord]struct{}
-	current map[coord]struct{}
+type Universe struct {
+	prev    map[Coord]struct{}
+	current map[Coord]struct{}
 	Size    int
 }
 
-func (u *universe) String() string {
+func (u *Universe) String() string {
 	s := ""
 	for row := 0; row < u.Size; row++ {
 		for col := 0; col < u.Size; col++ {
-			if _, alive := u.current[coord{row, col}]; alive {
+			if _, alive := u.current[Coord{row, col}]; alive {
 				s += " * "
 			} else {
 				s += " - "
@@ -36,18 +36,18 @@ func (u *universe) String() string {
 	return s
 }
 
-func (u *universe) iterate() {
-	u.prev = make(map[coord]struct{})
+func (u *Universe) iterate() {
+	u.prev = make(map[Coord]struct{})
 	for k := range u.current {
 		u.prev[k] = struct{}{}
 	}
-	u.current = make(map[coord]struct{})
+	u.current = make(map[Coord]struct{})
 
 	var aliveN int
 
 	for row := 0; row < u.Size; row++ {
 		for col := 0; col < u.Size; col++ {
-			c := coord{row, col}
+			c := Coord{row, col}
 
 			aliveN, _ = u.neighbours(c.x, c.y)
 
@@ -64,8 +64,8 @@ func (u *universe) iterate() {
 	}
 }
 
-func (u *universe) neighbours(row, col int) (int, int) {
-	nCells := []coord{
+func (u *Universe) neighbours(row, col int) (int, int) {
+	nCells := []Coord{
 		{row - 1, col - 1}, {row - 1, col}, {row - 1, col + 1},
 		{row, col - 1}, {row, col + 1},
 		{row + 1, col - 1}, {row + 1, col}, {row + 1, col + 1},
@@ -91,10 +91,10 @@ func (u *universe) neighbours(row, col int) (int, int) {
 	return alive, dead
 }
 
-func (u *universe) delta() ([]coord, []coord) {
+func (u *Universe) delta() ([]Coord, []Coord) {
 	var (
-		live []coord
-		die  []coord
+		live []Coord
+		die  []Coord
 	)
 
 	for c := range u.current {
@@ -112,10 +112,10 @@ func (u *universe) delta() ([]coord, []coord) {
 	return live, die
 }
 
-func newUniverse(size int) universe {
-	return universe{
-		prev:    make(map[coord]struct{}),
-		current: make(map[coord]struct{}),
+func New(size int) Universe {
+	return Universe{
+		prev:    make(map[Coord]struct{}),
+		current: make(map[Coord]struct{}),
 		Size:    size,
 	}
 }

@@ -1,0 +1,183 @@
+@import '~assets/styles/variables.scss';
+:host {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  .with-player,
+  .without-player {
+    height: 100%;
+    width: 100%;
+  }
+  .with-player {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    background-color: rgba($color:black, $alpha: 0.5);
+    z-index: -3;
+    .health-bar {
+      position: absolute;
+      height: 50%;
+      transition: width 0.5s;
+      &.t {
+        background: linear-gradient(90deg, $t-dark 0%, $t 99%);
+      }
+      &.ct {
+        background: linear-gradient(90deg, $ct-dark 0%, $ct 99%);
+      }
+    }
+    .damage-bar {
+      position: absolute;
+      height: 50%;
+      background-color: transparent;
+      &.damaged {
+        background-color: red;
+      }
+      transition: all 0.5s;
+      z-index: -1;
+    }
+    .top-half-color,
+    .bottom-half-color {
+      position: absolute;
+      width: 100%;
+      height: 50%;
+      z-index: -2;
+    }
+    .top-half-color {
+      background-color: rgba(0, 0, 0, 0.5);
+      top: 0%;
+    }
+    .bottom-half-color {
+      top: 50%;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+    .health-armor {
+      min-width: 14%;
+      max-width: 14%;
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+      .dead {
+        background-image: url('./skull.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        flex: 1;
+      }
+      .health {
+        flex: 1;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+      .armor-c4 {
+        flex: 1;
+        display: flex;
+        .armor,
+        .c4-defuse {
+          flex: 1;
+        }
+        .armor {
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+          &.armor-with-helmet {
+            background-image: url('./helmet.png');
+          }
+          &.armor-without-helmet {
+            background-image: url('./vest.png');
+          }
+        }
+        .c4-defuse {
+          background-repeat: no-repeat;
+          background-position: center;
+          &.has-c4 {
+            background-size: 75%;
+            background-image: url('./c4.png');
+          }
+          &.has-defuse-kit {
+            background-size: 100%;
+            background-image: url('./defuse.png');
+          }
+        }
+      }
+    }
+    .name-weapons {
+      flex: 1;
+      .top-half,
+      .bottom-half {
+        height: 50%;
+        padding-right: 1%;
+        padding-left: none;
+      }
+      .top-half {
+        display: flex;
+        position: relative;
+        .name {
+          display: flex;
+          align-items: center;
+          color: white;
+          font-weight: 400;
+          font-size: 0.9em;
+        }
+        .filler {
+          flex: 1;
+        }
+        .primary-weapon {
+          min-width: 30%;
+          max-width: 30%;
+        }
+      }
+      .bottom-half {
+        display: flex;
+        .cash {
+          display: flex;
+          align-items: center;
+          font-weight: 400;
+          color: #c4f1c4;
+        }
+        .filler {
+          flex: 1;
+        }
+        .nades {
+          display: flex;
+          align-items: center;
+        }
+        .secondary-weapon {
+          min-width: 15%;
+          max-width: 15%;
+        }
+      }
+    }
+  }
+  .without-player {
+    background-color: rgba($color: #232323, $alpha: 0.52);
+    background-image: url('./skull.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  &.right-align {
+    flex-direction: row-reverse;
+    .with-player {
+      .health-bar {
+        &.t {
+          background: linear-gradient(90deg, $t 0%, $t-dark 99%);
+        }
+        &.ct {
+          background: linear-gradient(90deg, $ct 0%, $ct-dark 99%);
+        }
+      }
+      flex-direction: row-reverse;
+      .top-half,
+      .bottom-half {
+        flex-direction: row-reverse;
+        padding-left: 1%;
+        padding-right: none;
+      }
+    }
+    .without-player {
+      background-position-x: 100%;
+    }
+  }
+}
