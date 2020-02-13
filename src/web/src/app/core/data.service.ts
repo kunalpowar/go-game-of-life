@@ -5,7 +5,6 @@ import { map, catchError } from 'rxjs/operators';
 import * as socketIo from 'socket.io-client';
 
 import { Socket } from '../shared/interfaces';
-import { ConfigJSON } from '../shared/config';
 
 
 declare var io: {
@@ -15,45 +14,20 @@ declare var io: {
 @Injectable()
 export class DataService {
   socket: Socket;
-  stateObserver: Observer<JSON>;
-  configObserver: Observer<JSON>;
-  config: ConfigJSON;
+  dataObserver: Observer<JSON>;
 
   connectToSocket(): void {
-    this.socket = socketIo('http://localhost:3000');
-
-    this.socket.on('config', (res) => {
-      this.config = <ConfigJSON>res.config;
-      console.log(`got config ${JSON.stringify(this.config)}`);
-    });
+    this.socket = socketIo('http://localhost:3000/data');
+    console.log("initialised socker");
   }
 
-  getStateObservable(): Observable<JSON> {
+  getDataObservable(): Observable<JSON> {
     this.socket.on('data', (res) => {
-      this.stateObserver.next(res.data);
+      this.dataObserver.next(res.data);
     });
 
     return new Observable<JSON>(obs => {
-      this.stateObserver = obs;
+      this.dataObserver = obs;
     });
-  }
-
-  getConfigObservable(): Observable<JSON> {
-    this.socket.on('config', (res) => {
-      this.configObserver.next(res.config);
-    });
-
-    return new Observable<JSON>(obs => {
-      this.configObserver = obs;
-    });
-  }
-
-  private handleError(error) {
-    console.error('server error:', error);
-    if (error.error instanceof Error) {
-      const errMessage = error.error.message;
-      return Observable.throw(errMessage);
-    }
-    return Observable.throw(error || 'Socket.io server error');
   }
 }
